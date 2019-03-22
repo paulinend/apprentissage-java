@@ -28,9 +28,13 @@ public class Application {
 		b = new Banque();
 		b.creerCompteCourant(pers1);
 		b.creerCompteEpargne(pers2);
-		b.rechercherCompte("100").crediter(500);
-		b.rechercherCompte("100").crediter(40);
-		b.rechercherCompte("100").crediter(1500);
+		
+		Compte cpt1 = b.rechercherCompte("100");
+
+		cpt1.crediter(500);
+		cpt1.crediter(40);
+		cpt1.crediter(1500);
+		cpt1.supprimerOperation(40);
 		try {
 			b.rechercherCompte("100").debiter(3500);
 		} catch (InvalidSoldeException e) {
@@ -38,10 +42,15 @@ public class Application {
 		}
 		
 		b.calculInteret();
+				
+		System.out.println("Recherche par nom avec les streams");
+		Compte oRes = b.rechercherCompteParNom("Chu");
+		System.out.println(oRes);
 		
+		System.out.println("Total des soldes: " + b.getTotalSolde());
 
-		
-		System.out.println(b.rechercherCompte("100").getHistorique(Critere.montant));
+	
+		System.out.println(b.rechercherCompte("100").getHistoriqueLambda(Critere.montant));
 		System.out.println(b.getComptes());
 		
 	}

@@ -88,9 +88,18 @@ public abstract class Compte {
 		op = new Operation(type, montant, LocalDate.now());
 		
 		listeOperations.add(op);
+		
 	}
 	
-	
+	public void supprimerOperation( double montant ) {
+		listeOperations.removeIf(this::comparer);
+		//version expression lambda
+		// listeOperations.removeIf(op -> op.getMontant() <= montant);
+	}
+	//predicate
+	public boolean comparer (Operation op) {
+		return op.getMontant() < 10;
+	}
 	
 	public void crediter (double montant) {
 		soldeCompte += montant; 
@@ -126,6 +135,23 @@ public abstract class Compte {
 			res.append(op.toString() + "\n");
 			return res.toString();
 	}
+	
+	public String getHistoriqueLambda(Critere critere) {
+		// Faire le tri selon le critére 
+		if ( critere == critere.montant)
+			// tri sur le montant
+			listeOperations.sort((op1, op2)-> Double.compare(op1.getMontant(), op2.getMontant()));
+		else if ( critere == Critere.date);
+			// tri sur la date
+			listeOperations.sort((op1, op2) -> op1.getDate().compareTo(op2.getDate()));
+		
+		StringBuilder res = new StringBuilder("Liste des opérations \n");
+		for (Operation op : listeOperations)
+			res.append(op.toString() + "\n");
+			return res.toString();
+	}
+	
+	
 	
 	
 }
